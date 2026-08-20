@@ -82,7 +82,7 @@ pub fn activate(
     let job_monitor = service_manager
         .monitor_jobs_init()
         .map_err(|e| ActivationError::with_partial_result(old_services.clone(), e))?;
-    let timeout = Some(Duration::from_secs(30));
+    let timeout = Some(Duration::from_secs(300));
 
     // Stop removed services and any masked services that might still be running
     // (e.g. distro-provided units). Must happen before daemon-reload so systemd
