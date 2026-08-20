@@ -81,11 +81,13 @@ in
         pkgs.jq
       ];
     in
-    pkgs.runCommand "rootfs-${name}"
+    pkgs.runCommand "rootfs-${name}.tar"
       {
         inherit nativeBuildInputs;
       }
       ''
+        tarball=$out
+        out=$PWD/rootfs
         mkdir -p $out
 
         # Extract cloud image, excluding container-incompatible services
@@ -128,5 +130,7 @@ in
 
         # Run distro-specific setup
         ${extraSetup}
+
+        tar -C $out --sparse -cf $tarball .
       '';
 }
